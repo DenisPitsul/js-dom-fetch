@@ -1,5 +1,6 @@
 // ViewModel
 const tableContainer = document.querySelector('.table-container');
+const maxWindTitle = document.querySelector('.max-wind-title');
 const errorMessageEl = document.querySelector('.error-message');
 
 const api = new Api();
@@ -8,7 +9,9 @@ loadWeather();
 
 function showWeather(wind_gusts_10m, wind_speeds_10m) {
     const weatherResponse = new WeatherResponse(wind_gusts_10m, wind_speeds_10m);
-    const weatherWindsObj = WeatherWinds.castFromWeatherResponse(weatherResponse);
+    const { wheatherWinds, maxWindSpeed10m, maxWindGust10m } = WeatherWinds.castFromWeatherResponse(weatherResponse);
+
+    maxWindTitle.textContent = `Max wind speed: ${maxWindSpeed10m} km/h, Max wind gust: ${maxWindGust10m}km/h`
 
     tableContainer.innerHTML = `<table>
         <thead>
@@ -19,7 +22,7 @@ function showWeather(wind_gusts_10m, wind_speeds_10m) {
             </tr>
         </thead>
         <tbody>
-            ${weatherWindsObj.wheatherWinds.map(({windGust10m, windSpeed10m, befortMark, color}) => {
+            ${wheatherWinds.map(({windGust10m, windSpeed10m, befortMark, color}) => {
                 return `<tr>
                         <td>${windSpeed10m}</td>
                         <td>${windGust10m}</td>
