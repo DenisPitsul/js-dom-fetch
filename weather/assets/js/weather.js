@@ -15,10 +15,16 @@ class WeatherResponse {
 }
 
 class WeatherWind {
-    constructor(windGust10m, windSpeed10m) {
+    constructor(windGust10m, windSpeed10m, dateTime) {
         this.windGust10m = windGust10m;
         this.windSpeed10m = windSpeed10m;
+        this.dateTime = dateTime;
+        this.initDateStr(dateTime);
         this.calcBefortMark(windSpeed10m);
+    }
+
+    initDateStr(dateTime) {
+        this.dateTimeStr = `${dateTime.getFullYear()}.${dateTime.getMonth() + 1}.${dateTime.getDate()} ${dateTime.getHours()}:${dateTime.getMinutes()}`;
     }
 
     calcBefortMark(windSpeed10m) {
@@ -105,7 +111,10 @@ class WeatherWinds {
     static castFromWeatherResponse(weatherResponse) {
         const weatherWinds = [];
         weatherResponse.windGusts10m.forEach((windGust, index) => {
-            const weatherWind = new WeatherWind(windGust, weatherResponse.windSpeeds10m[index]);
+            const dateTime = new Date();
+            dateTime.setTime(dateTime.getTime() + (index * 60 * 60 * 1000));
+            dateTime.setMinutes(0);
+            const weatherWind = new WeatherWind(windGust, weatherResponse.windSpeeds10m[index], dateTime);
             weatherWinds.push(weatherWind);
         });
 

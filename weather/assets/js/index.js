@@ -19,16 +19,18 @@ function showWeather(wind_gusts_10m, wind_speeds_10m) {
                 <th>Wind speed</th>
                 <th>Wind gust</th>
                 <th>Befort mark</th>
+                <th>Date and time</th>
             </tr>
         </thead>
         <tbody>
-            ${wheatherWinds.map(({windGust10m, windSpeed10m, befortMark, color}) => {
+            ${wheatherWinds.map(({windGust10m, windSpeed10m, befortMark, color, dateTimeStr}) => {
                 return `<tr>
                         <td>${windSpeed10m}</td>
                         <td>${windGust10m}</td>
                         <td style="background-color: ${color}">${befortMark}</td>
+                        <td>${dateTimeStr}</td>
                     </tr>`
-            })}
+            }).join('')}
         </tbody>
     </table>`;
 }
@@ -42,7 +44,8 @@ function loadWeather() {
     api.fetchWeather()
         .then(({hourly: {wind_gusts_10m, wind_speed_10m}}) => {
             showWeather(wind_gusts_10m, wind_speed_10m);
-        }).catch(err => {
-            showError(err.message);
-        }).finally(() => hideLoader());        
+        }).finally(() => hideLoader());   
+        // .catch(err => {
+        //     showError(err.message);
+        // })     
 }

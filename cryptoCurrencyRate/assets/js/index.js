@@ -74,7 +74,7 @@ function showCyptoCurrencyRate(cryptoCurrencyRateArray) {
                         <td>${volume}</td>
                         <td>${weightedAvgPrice}</td>
                     </tr>`
-            })}
+            }).join('')}
         </tbody>
     </table>`;
 }
