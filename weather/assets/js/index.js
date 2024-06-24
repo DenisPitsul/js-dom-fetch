@@ -42,10 +42,7 @@ function showError(message) {
 function loadWeather() {
     showLoader();
     api.fetchWeather()
-        .then(({hourly: {wind_gusts_10m, wind_speed_10m}}) => {
-            showWeather(wind_gusts_10m, wind_speed_10m);
-        }).finally(() => hideLoader());   
-        // .catch(err => {
-        //     showError(err.message);
-        // })     
+        .then(({hourly: {wind_gusts_10m, wind_speed_10m}}) => showWeather(wind_gusts_10m, wind_speed_10m))
+        .catch(err => showError(err.message))
+        .finally(() => hideLoader());      
 }

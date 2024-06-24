@@ -1,7 +1,7 @@
 // ViewModel
-const loadBtn = document.querySelector('.load-btn')
-const imageEl = document.querySelector('.image');
-const errorMessageEl = document.querySelector('.error-message');
+const loadBtn = document.querySelector(".load-btn");
+const imageEl = document.querySelector(".image");
+const errorMessageEl = document.querySelector(".error-message");
 
 const api = new Api();
 
@@ -11,21 +11,20 @@ imageEl.onclick = loadDog;
 loadDog();
 
 function showDog({ message, status }) {
-    const dog = new DogResponse(message, status);
-    imageEl.src = dog.message;
+  const dog = new DogResponse(message, status);
+  imageEl.src = dog.message;
 }
 
 function showError(message) {
-    errorMessageEl.textContent = message;
-    imageEl.src = '../../../assets/images/defaultImage.jpg';
+  errorMessageEl.textContent = message;
+  imageEl.src = "../../../assets/images/defaultImage.jpg";
 }
 
 function loadDog() {
-    showLoader();
-    api.fetchRandomDogImage()
-        .then((data) => {
-            showDog(data);
-        }).catch(err => {
-            showError(err.message);
-        }).finally(() => hideLoader())
+  showLoader();
+  api
+    .fetchRandomDogImage()
+    .then((data) => showDog(data))
+    .catch((err) => showError(err.message))
+    .finally(() => hideLoader());
 }

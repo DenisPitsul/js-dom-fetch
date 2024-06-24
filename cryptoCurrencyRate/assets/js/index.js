@@ -1,13 +1,13 @@
 // ViewModel
-const tableContainer = document.querySelector('.table-container');
-const errorMessageEl = document.querySelector('.error-message');
+const tableContainer = document.querySelector(".table-container");
+const errorMessageEl = document.querySelector(".error-message");
 
 const api = new Api();
 
 loadCyptoCurrencyRate();
 
 function showCyptoCurrencyRate(cryptoCurrencyRateArray) {
-    tableContainer.innerHTML = `<table>
+  tableContainer.innerHTML = `<table>
         <thead>
             <tr>
                 <th>Ask price</th>
@@ -32,28 +32,30 @@ function showCyptoCurrencyRate(cryptoCurrencyRateArray) {
             </tr>
         </thead>
         <tbody>
-            ${cryptoCurrencyRateArray.map(({
-                askPrice,
-                bidPrice,
-                bidQty,
-                closeTime,
-                count,
-                firstId,
-                highPrice,
-                lastId,
-                lastPrice,
-                lastQty,
-                lowPrice,
-                openPrice,
-                openTime,
-                prevClosePrice,
-                priceChange,
-                priceChangePercent,
-                symbol,
-                volume, 
-                weightedAvgPrice
-            }) => {
-                return `<tr>
+            ${cryptoCurrencyRateArray
+              .map(
+                ({
+                  askPrice,
+                  bidPrice,
+                  bidQty,
+                  closeTime,
+                  count,
+                  firstId,
+                  highPrice,
+                  lastId,
+                  lastPrice,
+                  lastQty,
+                  lowPrice,
+                  openPrice,
+                  openTime,
+                  prevClosePrice,
+                  priceChange,
+                  priceChangePercent,
+                  symbol,
+                  volume,
+                  weightedAvgPrice,
+                }) => {
+                  return `<tr>
                         <td>${askPrice}</td>
                         <td>${bidPrice}</td>
                         <td>${bidQty}</td>
@@ -73,23 +75,25 @@ function showCyptoCurrencyRate(cryptoCurrencyRateArray) {
                         <td>${symbol}</td>
                         <td>${volume}</td>
                         <td>${weightedAvgPrice}</td>
-                    </tr>`
-            }).join('')}
+                    </tr>`;
+                }
+              )
+              .join("")}
         </tbody>
     </table>`;
 }
 
 function showError(message) {
-    errorMessageEl.textContent = message;
+  errorMessageEl.textContent = message;
 }
 
 function loadCyptoCurrencyRate() {
-    showLoader();
-    api.fetchCryptoCurrencyRate()
-        .then((cryptoCurrencyRateArray) => {
-            console.log(cryptoCurrencyRateArray);
-            showCyptoCurrencyRate(cryptoCurrencyRateArray);
-        }).catch(err => {
-            showError(err.message);
-        }).finally(() => hideLoader());        
+  showLoader();
+  api
+    .fetchCryptoCurrencyRate()
+    .then((cryptoCurrencyRateArray) =>
+      showCyptoCurrencyRate(cryptoCurrencyRateArray)
+    )
+    .catch((err) => showError(err.message))
+    .finally(() => hideLoader());
 }
